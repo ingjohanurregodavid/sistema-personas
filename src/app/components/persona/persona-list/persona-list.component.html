@@ -1,0 +1,64 @@
+<div class="personas-container">
+    <h2>Lista de Personas</h2>
+    
+    <button (click)="newPersona()">Nueva Persona</button>
+
+    <!-- Mostrar mensaje de éxito o error -->
+    <div *ngIf="successMessage" class="alert alert-success">
+      {{ successMessage }}
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Tabla de personas -->
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Cédula</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let persona of personas">
+          <td>{{ persona.id }}</td>
+          <td>{{ persona.cedula }}</td>
+          <td>{{ persona.nombre }}</td>
+          <td>{{ persona.apellido }}</td>
+          <td>
+            <button (click)="editPersona(persona)">Editar</button>
+            <button (click)="deletePersona(persona.id)">Eliminar</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Formulario de creación o edición -->
+    <div *ngIf="selectedPersona">
+      <h3>{{ selectedPersona.id ? 'Editar Persona' : 'Nueva Persona' }}</h3>
+      <form (ngSubmit)="savePersona()">
+        <!-- Campo ID (readonly para no editar manualmente) -->
+        <div *ngIf="selectedPersona.id">
+          <label for="id">ID</label>
+          <input type="text" [(ngModel)]="selectedPersona.id" name="id" readonly />
+        </div>
+
+        <label for="cedula">Cédula</label>
+        <input type="text" [(ngModel)]="selectedPersona.cedula" name="cedula" required />
+
+        <label for="nombre">Nombre</label>
+        <input type="text" [(ngModel)]="selectedPersona.nombre" name="nombre" required />
+
+        <label for="apellido">Apellido</label>
+        <input type="text" [(ngModel)]="selectedPersona.apellido" name="apellido" required />
+
+        <label for="celular">Número de celular</label>
+        <input type="text" [(ngModel)]="selectedPersona.numeroCelular" name="celular" required />
+
+        <button type="submit">{{ selectedPersona.id ? 'Actualizar' : 'Crear' }}</button>
+      </form>
+    </div>
+</div>
